@@ -206,4 +206,17 @@ Platforms for Research, ACER) for support of this work, and the UIC ACER team
 for providing and maintaining the Lakeshore HPC cluster used in development
 and evaluation.
 
+# AI Usage Disclosure
+
+Claude Code (Anthropic, claude-sonnet-4-6) was used to assist with: code
+generation and refactoring (`GlobusComputeClient`, FastAPI routes, authentication
+module, encryption module, test scaffolding), documentation drafting (README,
+deployment guide, CONTRIBUTING), and paper text editing. All architectural
+decisions — the configuration-injectable client design, dual-mode authentication
+architecture, end-to-end encryption key separation (endpoint env var vs. task
+argument), embeddable FastAPI router pattern, and multimodal payload management
+strategy — are the author's original work. All AI-assisted outputs were reviewed,
+validated, and revised by the author. The author takes full responsibility for
+the accuracy, correctness, and integrity of all submitted materials.
+
 # References
