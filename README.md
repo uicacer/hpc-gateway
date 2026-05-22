@@ -1,5 +1,9 @@
 # hpc-gateway
 
+[![PyPI](https://img.shields.io/pypi/v/hpc-gateway)](https://pypi.org/project/hpc-gateway/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](https://github.com/uicacer/hpc-gateway/blob/main/LICENSE)
+[![Tests](https://github.com/uicacer/hpc-gateway/actions/workflows/tests.yml/badge.svg)](https://github.com/uicacer/hpc-gateway/actions)
+
 **OpenAI-compatible API gateway for HPC clusters via Globus Compute.**
 
 `hpc-gateway` exposes any vLLM-served model running on an HPC cluster (SLURM, PBS, etc.) as a standard OpenAI-compatible REST API. It handles authentication, rate limiting, payload size management, and real-time token streaming — so your existing OpenAI clients work without modification.
