@@ -1,7 +1,7 @@
-"""Tests for hpc_gateway.utils — message utility functions."""
+"""Tests for hpc_as_api.utils — message utility functions."""
 
 import pytest
-from hpc_gateway.utils import (
+from hpc_as_api.utils import (
     count_images,
     extract_text_content,
     has_images,

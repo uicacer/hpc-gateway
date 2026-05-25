@@ -9,11 +9,11 @@ This module serves two roles:
    Run as its own process with uvicorn. The caller sends OpenAI-compatible
    /v1/chat/completions requests; the gateway dispatches them to the HPC cluster
    via Globus Compute and streams tokens back through the WebSocket relay.
-   → Start with: uvicorn hpc_gateway.app:app --host 0.0.0.0 --port 8001
+   → Start with: uvicorn hpc_as_api.app:app --host 0.0.0.0 --port 8001
 
 2. EMBEDDED ROUTER:
    Import `router` and mount it in any existing FastAPI application:
-       from hpc_gateway.app import router
+       from hpc_as_api.app import router
        app.include_router(router, prefix="/hpc")
    Same routes, same logic, no separate process needed.
 
@@ -54,9 +54,9 @@ import httpx
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Request
 from fastapi.responses import StreamingResponse
 
-from hpc_gateway.auth import CallerIdentity, authenticate, validate_messages
-from hpc_gateway.compute import GlobusComputeClient
-from hpc_gateway.crypto import decrypt_message
+from hpc_as_api.auth import CallerIdentity, authenticate, validate_messages
+from hpc_as_api.compute import GlobusComputeClient
+from hpc_as_api.crypto import decrypt_message
 
 # =========================================================================
 # Configuration — all from environment variables
@@ -152,7 +152,7 @@ async def lifespan(app: FastAPI):
 # APIRouter — the actual route definitions
 # =========================================================================
 # Using a router lets this module be embedded into any FastAPI app:
-#   app.include_router(hpc_gateway.app.router, prefix="/hpc")
+#   app.include_router(hpc_as_api.app.router, prefix="/hpc")
 router = APIRouter()
 
 
@@ -186,7 +186,7 @@ async def list_models(caller: CallerIdentity = Depends(authenticate)):
                 "id": info.get("hf_name", name),
                 "object": "model",
                 "created": int(now()),
-                "owned_by": "hpc-gateway",
+                "owned_by": "hpc-as-api",
                 # Include the gateway-internal name as metadata.
                 # Callers can use either name — hf_name or the registry key.
                 "gateway_name": name,

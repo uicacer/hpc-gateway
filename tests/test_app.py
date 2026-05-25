@@ -1,4 +1,4 @@
-"""Tests for hpc_gateway.app — FastAPI routes and health check."""
+"""Tests for hpc_as_api.app — FastAPI routes and health check."""
 
 import json
 import pytest
@@ -24,10 +24,10 @@ def mock_globus_and_auth(monkeypatch):
     ]:
         monkeypatch.setitem(__import__("sys").modules, mod, MagicMock())
 
-    # Evict any previously imported hpc_gateway modules so patches take effect
+    # Evict any previously imported hpc_as_api modules so patches take effect
     import sys
     for key in list(sys.modules.keys()):
-        if key.startswith("hpc_gateway"):
+        if key.startswith("hpc_as_api"):
             sys.modules.pop(key)
 
 
@@ -39,7 +39,7 @@ def client(mock_globus_and_auth, monkeypatch):
         "test-model": {"hf_name": "org/TestModel", "url": "http://fake:8000"}
     }))
 
-    from hpc_gateway.app import app
+    from hpc_as_api.app import app
     return TestClient(app, raise_server_exceptions=True)
 
 

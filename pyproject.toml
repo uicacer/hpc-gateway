@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "hpc-gateway"
+name = "hpc-as-api"
 version = "0.1.0"
 description = "OpenAI-compatible API gateway for HPC clusters via Globus Compute"
 readme = "README.md"
@@ -46,15 +46,15 @@ dev = [
 ]
 
 [project.scripts]
-hpc-gateway = "hpc_gateway.app:main"
+hpc-as-api = "hpc_as_api.app:main"
 
 [project.urls]
-Homepage = "https://github.com/uicacer/hpc-gateway"
-Repository = "https://github.com/uicacer/hpc-gateway"
-"Bug Tracker" = "https://github.com/uicacer/hpc-gateway/issues"
+Homepage = "https://github.com/uicacer/hpc-as-api"
+Repository = "https://github.com/uicacer/hpc-as-api"
+"Bug Tracker" = "https://github.com/uicacer/hpc-as-api/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["hpc_gateway"]
+packages = ["hpc_as_api"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

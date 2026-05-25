@@ -1,5 +1,5 @@
 ---
-title: 'hpc-gateway: An OpenAI-Compatible API Gateway for HPC Clusters via Globus Compute'
+title: 'hpc-as-api: An OpenAI-Compatible API Gateway for HPC Clusters via Globus Compute'
 tags:
   - Python
   - HPC
@@ -32,7 +32,7 @@ Researchers and developers who want to call an HPC-hosted model or service must
 navigate these heterogeneous interfaces directly, requiring HPC expertise that most
 application developers do not have.
 
-`hpc-gateway` solves this by wrapping HPC resources behind a standard
+`hpc-as-api` solves this by wrapping HPC resources behind a standard
 OpenAI-compatible REST API. It accepts `POST /v1/chat/completions` requests
 (the same format used by OpenAI, Anthropic, and every modern LLM client library),
 dispatches them to the HPC cluster via Globus Compute [@globuscompute2024], and
@@ -80,9 +80,9 @@ Several HPC centers have deployed LLM inference services [@first2025; @dartmouth
 streaming and the requirement for HPC accounts. Users must interact through
 cluster-specific interfaces rather than standard tools.
 
-## What hpc-gateway provides
+## What hpc-as-api provides
 
-`hpc-gateway` closes this gap by providing:
+`hpc-as-api` closes this gap by providing:
 
 1. **A standard API surface**: Any OpenAI-compatible client (LangChain,
    LlamaIndex, OpenWebUI, Cursor, AWS Amplify) works without modification.
@@ -113,7 +113,7 @@ cluster-specific interfaces rather than standard tools.
 
 ## Architecture
 
-`hpc-gateway` is built around three separation-of-concerns principles:
+`hpc-as-api` is built around three separation-of-concerns principles:
 
 **Control plane stays unchanged.** Job authentication, dispatch, and scheduling
 continue to use Globus Compute [@globuscompute2024]. The gateway adds no new
@@ -140,7 +140,7 @@ export HPC_MODELS='{"qwen25-vl-72b": {
 
 ## Key components
 
-**`GlobusComputeClient`** (`hpc_gateway/compute.py`): Manages the persistent
+**`GlobusComputeClient`** (`hpc_as_api/compute.py`): Manages the persistent
 Globus Compute Executor (AMQP connection reuse saves 1–2 s per request),
 handles authentication checks and credential reload, manages payload size
 (stripping images from older conversation history to stay under Globus's 10 MB
@@ -149,7 +149,7 @@ are defined as source strings and compiled via `exec()` to produce clean
 bytecode — a workaround for PyInstaller-bundled environments where standard
 serialization fails with missing internal modules.
 
-**`authenticate` / `validate_messages`** (`hpc_gateway/auth.py`): FastAPI
+**`authenticate` / `validate_messages`** (`hpc_as_api/auth.py`): FastAPI
 dependency that validates every request. Accepts either a Globus access token
 (introspected against Globus Auth's public endpoint, email domain checked) or
 a pre-issued API key (constant-time comparison). Input validation enforces
@@ -157,12 +157,12 @@ message count limits, role constraints, and content length bounds before any
 job reaches the cluster. Per-caller rate limiting uses a sliding window
 (default 20 requests/60 s).
 
-**`decrypt_message`** (`hpc_gateway/crypto.py`): AES-256-GCM decryption for
+**`decrypt_message`** (`hpc_as_api/crypto.py`): AES-256-GCM decryption for
 end-to-end encrypted relay payloads. The encryption key is set as an environment
 variable on the Globus Compute endpoint (`worker_init`) and never transmitted
 as a task argument, so it does not travel over Globus's AMQP channel.
 
-**Message utilities** (`hpc_gateway/utils.py`): Handles multimodal OpenAI
+**Message utilities** (`hpc_as_api/utils.py`): Handles multimodal OpenAI
 messages (text + base64 images). `strip_old_images()` removes image content
 from all but the latest user message before Globus submission, reducing payload
 size while preserving text context for the model.
@@ -173,7 +173,7 @@ The recommended deployment places the gateway on the same VM as the
 `streamrelay` relay server (lower latency, single TLS certificate, one security
 perimeter). Caddy handles TLS automatically. The full deployment requires:
 
-- One small public VM (e.g., AWS t3.micro) running `streamrelay` and `hpc-gateway`
+- One small public VM (e.g., AWS t3.micro) running `streamrelay` and `hpc-as-api`
 - One Globus Compute endpoint on the HPC cluster (outbound AMQP only)
 - One pre-issued API key per external calling service
 
@@ -199,7 +199,7 @@ overhead — it is a memory-copy forwarder with no parsing on message content.
 
 # Acknowledgements
 
-`hpc-gateway` was developed as part of the STREAM project at the Advanced
+`hpc-as-api` was developed as part of the STREAM project at the Advanced
 Cyberinfrastructure for Education and Research (ACER) group at the University
 of Illinois Chicago. We thank Marius Horga (Assistant Director of Advanced
 Platforms for Research, ACER) for support of this work, and the UIC ACER team

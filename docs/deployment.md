@@ -1,6 +1,6 @@
 # Production Deployment Guide
 
-This guide covers deploying `hpc-gateway` as a production service behind TLS,
+This guide covers deploying `hpc-as-api` as a production service behind TLS,
 with `streamrelay` on the same VM, accessible from any OpenAI-compatible client.
 
 ## Prerequisites
@@ -18,7 +18,7 @@ Internet (caller)
       ▼
     Caddy (TLS termination, auto Let's Encrypt)
       ├── / → streamrelay (WebSocket relay, port 8765 internal)
-      └── :8001 → hpc-gateway (proxy, port 8002 internal)
+      └── :8001 → hpc-as-api (proxy, port 8002 internal)
                         │  Globus Compute AMQP (outbound only)
                         ▼
                   HPC Cluster
@@ -30,12 +30,12 @@ Internet (caller)
 # Install Python 3.11+ and pip
 sudo apt update && sudo apt install -y python3.11 python3.11-pip caddy
 
-# Install hpc-gateway with Globus support
-python3.11 -m pip install "hpc-gateway[globus]"
+# Install hpc-as-api with Globus support
+python3.11 -m pip install "hpc-as-api[globus]"
 
 # Or install from source
-git clone https://github.com/uicacer/hpc-gateway
-cd hpc-gateway
+git clone https://github.com/uicacer/hpc-as-api
+cd hpc-as-api
 python3.11 -m pip install -e ".[globus]"
 ```
 
@@ -69,7 +69,7 @@ After=network.target streamrelay.service
 [Service]
 User=ubuntu
 EnvironmentFile=/home/ubuntu/proxy.env
-ExecStart=/usr/bin/python3.11 -m uvicorn hpc_gateway.app:app \
+ExecStart=/usr/bin/python3.11 -m uvicorn hpc_as_api.app:app \
     --host 127.0.0.1 --port 8002 --log-level info
 Restart=on-failure
 RestartSec=10

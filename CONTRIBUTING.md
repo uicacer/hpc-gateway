@@ -1,12 +1,12 @@
-# Contributing to hpc-gateway
+# Contributing to hpc-as-api
 
 Thank you for your interest in contributing. This document describes how to set up a development environment, run the test suite, and submit changes.
 
 ## Development setup
 
 ```bash
-git clone https://github.com/uicacer/hpc-gateway
-cd hpc-gateway
+git clone https://github.com/uicacer/hpc-as-api
+cd hpc-as-api
 uv sync --extra dev        # installs all dev dependencies
 uv run pytest -v           # should show 28 tests passing
 ```
@@ -28,7 +28,7 @@ The `test_compute.py` and `test_app.py` tests mock the Globus SDK so they run of
 ## Project structure
 
 ```
-hpc_gateway/
+hpc_as_api/
   auth.py      — Globus token + API key authentication, rate limiting
   compute.py   — GlobusComputeClient: job submission and streaming
   crypto.py    — AES-256-GCM end-to-end encryption
@@ -50,14 +50,14 @@ docs/
 1. Fork the repository and create a branch: `git checkout -b feature/my-change`
 2. Make your changes, add tests where appropriate
 3. Run `uv run --extra dev pytest` to confirm tests pass
-4. Run `uv run --extra dev ruff check hpc_gateway/` for style checks
+4. Run `uv run --extra dev ruff check hpc_as_api/` for style checks
 5. Open a pull request with a clear description of what changed and why
 
 ## Reporting bugs / requesting features
 
-Open an issue at <https://github.com/uicacer/hpc-gateway/issues>. Include:
+Open an issue at <https://github.com/uicacer/hpc-as-api/issues>. Include:
 - Python version (`python --version`)
-- hpc-gateway version (`pip show hpc-gateway`)
+- hpc-as-api version (`pip show hpc-as-api`)
 - A minimal reproducing example
 - The full error traceback
 

@@ -1,5 +1,5 @@
 """
-Message utility functions for hpc-gateway.
+Message utility functions for hpc-as-api.
 
 Helpers for working with OpenAI-format messages, including multimodal
 content (text + images). Used by the compute client to manage payload

@@ -1,8 +1,8 @@
 """
-hpc-gateway — OpenAI-compatible API gateway for HPC clusters via Globus Compute.
+hpc-as-api — OpenAI-compatible API gateway for HPC clusters via Globus Compute.
 
 Quick start (programmatic use):
-    from hpc_gateway.compute import GlobusComputeClient
+    from hpc_as_api.compute import GlobusComputeClient
 
     client = GlobusComputeClient(
         endpoint_id="8d978809-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
@@ -21,14 +21,14 @@ Quick start (programmatic use):
 
 Quick start (FastAPI service):
     # Set env vars: GLOBUS_COMPUTE_ENDPOINT_ID, HPC_MODELS, RELAY_URL, ...
-    # Then run: uvicorn hpc_gateway.app:app --host 0.0.0.0 --port 8001
+    # Then run: uvicorn hpc_as_api.app:app --host 0.0.0.0 --port 8001
 
     # Or embed the router in your existing FastAPI app:
-    from hpc_gateway.app import router
+    from hpc_as_api.app import router
     app.include_router(router, prefix="/hpc")
 """
 
-from hpc_gateway.utils import (
+from hpc_as_api.utils import (
     count_images,
     extract_text_content,
     has_images,
@@ -36,10 +36,10 @@ from hpc_gateway.utils import (
 )
 
 # GlobusComputeClient depends on globus_compute_sdk and globus_sdk, which are
-# optional (hpc-gateway[globus]). Import lazily so the base package works
+# optional (hpc-as-api[globus]). Import lazily so the base package works
 # without them installed.
 try:
-    from hpc_gateway.compute import GlobusComputeClient
+    from hpc_as_api.compute import GlobusComputeClient
     _GLOBUS_AVAILABLE = True
 except ImportError:
     _GLOBUS_AVAILABLE = False

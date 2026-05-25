@@ -1,7 +1,7 @@
 """
 Globus Compute client for submitting vLLM inference tasks to HPC clusters.
 
-This module is the core of hpc-gateway. It provides:
+This module is the core of hpc-as-api. It provides:
   1. Batch inference: submit a job to Globus Compute, wait for the full result
   2. Streaming inference: submit a job, receive tokens in real-time via relay
 
@@ -67,7 +67,7 @@ from globus_compute_sdk.serialize import AllCodeStrategies, ComputeSerializer
 from globus_sdk import GlobusAPIError
 from globus_sdk.login_flows.command_line_login_flow_manager import CommandLineLoginFlowEOFError
 
-from hpc_gateway.utils import strip_old_images
+from hpc_as_api.utils import strip_old_images
 
 logger = logging.getLogger(__name__)
 

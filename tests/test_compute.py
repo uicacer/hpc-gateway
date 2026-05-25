@@ -54,8 +54,8 @@ def make_client(mock_globus_modules, **kwargs):
     # Force re-import in case a cached version is already in sys.modules
     import importlib
     import sys
-    sys.modules.pop("hpc_gateway.compute", None)
-    from hpc_gateway.compute import GlobusComputeClient
+    sys.modules.pop("hpc_as_api.compute", None)
+    from hpc_as_api.compute import GlobusComputeClient
     return GlobusComputeClient(**kwargs)
 
 
