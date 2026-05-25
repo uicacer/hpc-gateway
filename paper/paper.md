@@ -125,6 +125,8 @@ relay architecture from `streamrelay` [@nassar2026streamrelay]. The HPC compute
 node connects outbound to the relay as producer; the gateway connects as consumer.
 Neither side opens an inbound port.
 
+![Relay architecture: the HPC compute node and gateway consumer both connect outbound to the relay, traversing firewalls without VPN or inbound ports.](../Relay_Architecture.png)
+
 **Configuration via environment.** All settings (endpoint ID, model registry,
 relay URL, secrets) come from environment variables. There are no config files
 to manage. The model registry (`HPC_MODELS` env var, JSON) maps caller-visible
