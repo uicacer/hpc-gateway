@@ -167,7 +167,7 @@ def remote_vllm_inference(vllm_url, model, messages, temperature, max_tokens, st
 """
 
 _ns = {}
-exec(compile(_REMOTE_FN_SOURCE, "<remote_vllm_inference>", "exec"), _ns)
+exec(compile(_REMOTE_FN_SOURCE, "<remote_vllm_inference>", "exec"), _ns)  # nosec B102
 remote_vllm_inference = _ns["remote_vllm_inference"]
 
 
@@ -303,7 +303,7 @@ def remote_vllm_streaming(vllm_url, model, messages, temperature, max_tokens, re
 """
 
 _ns2 = {}
-exec(compile(_REMOTE_STREAMING_FN_SOURCE, "<remote_vllm_streaming>", "exec"), _ns2)
+exec(compile(_REMOTE_STREAMING_FN_SOURCE, "<remote_vllm_streaming>", "exec"), _ns2)  # nosec B102
 remote_vllm_streaming = _ns2["remote_vllm_streaming"]
 
 
@@ -557,7 +557,8 @@ class GlobusComputeClient:
                 logger.warning("Globus Compute authentication required")
                 return False, (
                     "Globus Compute authentication required. "
-                    "Run: globus-compute-endpoint login\n"
+                    "Run: globus-compute-endpoint login
+"
                     "Or visit: https://app.globus.org/"
                 )
             return True, None
@@ -722,7 +723,8 @@ class GlobusComputeClient:
             error_lower = error_str.lower()
 
             if "managerlost" in error_lower or "loss of manager" in error_lower:
-                last_line = error_str.strip().split("\n")[-1].strip().rstrip("-")
+                last_line = error_str.strip().split("
+")[-1].strip().rstrip("-")
                 logger.error(f"HPC compute node lost: {last_line}")
                 return {
                     "error": (
