@@ -1,5 +1,3 @@
-> ⚠️ **This package has been renamed.** Please use [`hpc-as-api`](https://pypi.org/project/hpc-as-api/) instead: `pip install hpc-as-api`
-
 # hpc-as-api
 
 [![PyPI](https://img.shields.io/pypi/v/hpc-as-api)](https://pypi.org/project/hpc-as-api/)
