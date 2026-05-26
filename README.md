@@ -33,6 +33,8 @@ HPC clusters run the largest open-source LLMs (72B+ parameters) on GPU hardware 
 
 ## Architecture
 
+![Relay architecture: the HPC compute node and gateway consumer both connect outbound to the WebSocket relay, traversing firewalls without VPN or inbound ports.](Relay_Architecture.png)
+
 ```
 Your App / OpenAI Client
         │  POST /v1/chat/completions
